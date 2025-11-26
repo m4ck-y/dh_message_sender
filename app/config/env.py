@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     # === CONFIGURACIÓN DE LA API ===
     DEBUG: bool = False
     ENVIRONMENT: str = "development"
+    ROOT_PATH: str = ""
     
     # === CONFIGURACIÓN SMTP (OBLIGATORIAS) ===
     SMTP_HOST: str

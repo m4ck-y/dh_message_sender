@@ -31,7 +31,8 @@ API RESTful stateless para envío de correos electrónicos con Gmail SMTP.
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json",
-    openapi_tags=[TAG_OTP, TAG_WAITLIST]
+    openapi_tags=[TAG_OTP, TAG_WAITLIST],
+    root_path=settings.ROOT_PATH
 )
 
 # Configuración de CORS
