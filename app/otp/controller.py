@@ -3,13 +3,11 @@ from email.mime.text import MIMEText
 import smtplib
 import ssl
 from datetime import datetime
-from typing import Optional
-
-TEMPLATES_DIR = "app/templates"
-
 from app.config import settings
 from app.otp.models import OTPEmailRequest, OTPEmailResponse
 from jinja2 import Environment, FileSystemLoader
+
+TEMPLATES_DIR = "app/templates"
 
 class EmailOTPApplication:
     def __init__(self):
@@ -144,7 +142,7 @@ class EmailOTPApplication:
         
         DEPRECATED: Usar send_otp_email() con OTPEmailRequest en su lugar.
         """
-        print(f"[WARN] Usando método legacy Send_OTP - considerar migrar a send_otp_email()")
+        print("[WARN] Usando método legacy Send_OTP - considerar migrar a send_otp_email()")
         
         # Crear request con parámetros básicos (app_name ya no se necesita)
         request = OTPEmailRequest(
