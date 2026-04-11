@@ -1,18 +1,18 @@
 """
-Módulo de waitlist para SmtpMailer FastAPI.
+Módulo de waitlist para PulseCore.
 
-Proporciona funcionalidad para envío de emails de confirmación
-cuando los usuarios se registran en la lista de espera.
+Proporciona funcionalidad para registro y confirmación 
+en lista de espera a través de múltiples canales.
 """
 
 from app.waitlist.router import router_waitlist, TAG_WAITLIST
-from app.waitlist.models import WaitlistEmailRequest, WaitlistEmailResponse
-from app.waitlist.controller import EmailWaitlistApplication
+from app.waitlist.models import WaitlistRequest, WaitlistResponse
+from app.waitlist.controller import WaitlistApplication
 
 __all__ = [
     "router_waitlist", 
     "TAG_WAITLIST", 
-    "WaitlistEmailRequest", 
-    "WaitlistEmailResponse",
-    "EmailWaitlistApplication"
+    "WaitlistRequest", 
+    "WaitlistResponse",
+    "WaitlistApplication"
 ]

@@ -12,8 +12,8 @@ from pathlib import Path
 # Agregar el directorio raíz al path para importar módulos
 sys.path.insert(0, str(Path(__file__).parent))
 
-from app.waitlist.models import WaitlistEmailRequest, WaitlistEmailResponse
-from app.waitlist.controller import EmailWaitlistApplication
+from app.waitlist.models import WaitlistRequest, WaitlistResponse
+from app.waitlist.controller import WaitlistApplication
 from app.config import settings
 
 def test_waitlist_models():

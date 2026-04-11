@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f4f7f9; }
+        .container { max-width: 600px; margin: 20px auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .header { background: linear-gradient(135deg, #2563eb, #3b82f6); padding: 40px; text-align: center; color: white; }
+        .content { padding: 40px; }
+        .footer { background: #f8fafc; padding: 20px; text-align: center; font-size: 12px; color: #64748b; }
+        .button { display: inline-block; padding: 14px 28px; background-color: #2563eb; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin-top: 20px; }
+        .logo { max-width: 150px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            {% if logo_url %}<img src="{{ logo_url }}" class="logo" alt="{{ app_name }}">{% endif %}
+            <h1>¡Bienvenido a {{ app_name }}!</h1>
+        </div>
+        <div class="content">
+            <p>Hola <strong>{{ user_name }}</strong>,</p>
+            <p>Estamos encantados de tenerte con nosotros. Tu cuenta ha sido creada exitosamente con el correo <strong>{{ email }}</strong>.</p>
+            <p>En {{ app_name }}, nos esforzamos por ofrecerte la mejor experiencia en gestión hospitalaria digital.</p>
+            
+            {% if login_url %}
+            <div style="text-align: center;">
+                <a href="{{ login_url }}" class="button">Acceder a mi cuenta</a>
+            </div>
+            {% endif %}
+
+            <p>Si tienes alguna pregunta, no dudes en contactar a nuestro equipo de soporte en <a href="mailto:{{ support_email }}">{{ support_email }}</a>.</p>
+            <p>Saludos,<br>El equipo de {{ company_name }}</p>
+        </div>
+        <div class="footer">
+            &copy; {{ current_year }} {{ company_name }}. Todos los derechos reservados.<br>
+            <a href="{{ website_url }}">Visitar nuestro sitio web</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,80 +1,42 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
-from typing import Optional
+import os
+from pydantic_settings import BaseSettings
+from dotenv import load_dotenv
 
+load_dotenv()
 
 class Settings(BaseSettings):
     """
-    Configuración de la aplicación SmtpMailer FastAPI.
+    Application-wide configuration settings for PulseCore.
     
-    Carga variables de entorno desde archivo .env y proporciona valores por defecto
-    para desarrollo. Todas las configuraciones SMTP son obligatorias para el
-    funcionamiento correcto del servicio de envío de correos.
+    Loads values from environment variables with sensible defaults and 
+    comprehensive validation for critical infrastructure like SMTP and CORS.
     """
     
-    # === CONFIGURACIÓN DE LA API ===
-    DEBUG: bool = False
-    ENVIRONMENT: str = "development"
+    # API CONFIGURATION
+    APP_NAME: str = os.getenv("APP_NAME", "PulseCore")
+    DEBUG: bool = os.getenv("DEBUG", "False").lower() == "true"
     
-    # === CONFIGURACIÓN SMTP (OBLIGATORIAS) ===
-    SMTP_HOST: str
-    SMTP_PORT: int = 587
-    SMTP_USERNAME: str
-    SMTP_PASSWORD: str
-    SMTP_USE_TLS: bool = True
-    SMTP_USE_SSL: bool = False
-    SMTP_FROM_EMAIL: str
-    SMTP_FROM_NAME: str = "SmtpMailer API"
+    # CORS CONFIGURATION
+    ALLOWED_ORIGINS: str = os.getenv("ALLOWED_ORIGINS", "*")
+    ALLOWED_METHODS: str = os.getenv("ALLOWED_METHODS", "*")
+    ALLOWED_HEADERS: str = os.getenv("ALLOWED_HEADERS", "*")
     
-    # === CONFIGURACIÓN DE CORS ===
-    ALLOWED_ORIGINS: str = "*"
-    ALLOWED_METHODS: str = "GET,POST,PUT,DELETE,OPTIONS"
-    ALLOWED_HEADERS: str = "*"
+    # SMTP CONFIGURATION
+    SMTP_HOST: str = os.getenv("SMTP_HOST", "")
+    SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
+    SMTP_USERNAME: str = os.getenv("SMTP_USERNAME", "")
+    SMTP_PASSWORD: str = os.getenv("SMTP_PASSWORD", "")
+    SMTP_FROM_EMAIL: str = os.getenv("SMTP_FROM_EMAIL", "")
+    SMTP_USE_TLS: bool = os.getenv("SMTP_USE_TLS", "True").lower() == "true"
+    SMTP_STARTTLS: bool = os.getenv("SMTP_STARTTLS", "True").lower() == "true"
     
-    # === CONFIGURACIÓN DE TIMEOUTS ===
-    SMTP_TIMEOUT: int = 30
-    
-    # ========================================
-    # VARIABLES NO UTILIZADAS (COMENTADAS)
-    # ========================================
-    
-    # === CONFIGURACIÓN DE API AVANZADA ===
-    # Para usar en uvicorn.run() o configuración de servidor
-    # API_HOST: str = "127.0.0.1"  # Host del servidor
-    # API_PORT: int = 8000         # Puerto del servidor
-    # LOG_LEVEL: str = "INFO"      # Nivel de logging (DEBUG, INFO, WARN, ERROR)
-    
-    # === CONFIGURACIÓN DE SEGURIDAD ===
-    # Para implementar autenticación y rate limiting
-    # API_KEY_ENABLED: bool = False              # Activar autenticación por API key
-    # API_KEY: Optional[str] = None              # API key para endpoints protegidos
-    # RATE_LIMIT_ENABLED: bool = True           # Activar rate limiting
-    # MAX_REQUESTS_PER_MINUTE: int = 100        # Límite por minuto por IP
-    # MAX_REQUESTS_PER_HOUR: int = 1000         # Límite por hora por IP
-    
-    # === CONFIGURACIÓN DE PLANTILLAS ===
-    # Para personalizar templates HTML de emails
-    APP_NAME: str = "SmtpMailer API"
-    COMPANY_NAME: str = "SmtpMailer API"
-    COMPANY_LOGO_URL: str = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5mug1kZAbRtSexOlAnCSRDudlfe-GKxYfQA&s"
-    SUPPORT_EMAIL: str = "soporte@smtpmailer.com"
-    WEBSITE_URL: str = "https://smtpmailer.com"
-    
-    # === CONFIGURACIÓN DE CACHE ===
-    # Para implementar cache de templates y configuraciones
-    # CACHE_TTL_SECONDS: int = 300  # 5 minutos  # TTL del cache
-    # CACHE_ENABLED: bool = True                 # Activar/desactivar cache
-    
-    # === CONFIGURACIÓN DE TIMEOUTS AVANZADOS ===
-    # Para timeouts de requests HTTP y otras operaciones
-    # REQUEST_TIMEOUT: int = 60                  # Timeout para requests HTTP
-    
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        case_sensitive=False,
-        extra="ignore"
-    )
+    # BRANDING AND SUPPORT
+    COMPANY_NAME: str = os.getenv("COMPANY_NAME", "Digital Hospital")
+    COMPANY_LOGO_URL: str = os.getenv("COMPANY_LOGO_URL", "")
+    SUPPORT_EMAIL: str = os.getenv("SUPPORT_EMAIL", "")
+    WEBSITE_URL: str = os.getenv("WEBSITE_URL", "")
 
+    class Config:
+        case_sensitive = True
 
-# Instancia global de configuración
 settings = Settings()

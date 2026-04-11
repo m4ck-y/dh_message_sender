@@ -1,158 +1,96 @@
 from pydantic import BaseModel, Field, EmailStr, validator
 from typing import Optional
+from app.core.messaging.models import MessageChannel
 
 
-class OTPEmailRequest(BaseModel):
-    #TODO: checar si en la documentacion se habla de none , por que el enpoint si es para el frontend ellos manejan null, en los datos
+class OTPRequest(BaseModel):
     """
-    Modelo de solicitud para envío de email OTP simplificado.
-    
-    Configuración mínima requerida para envío de OTP. El nombre de la aplicación
-    y logo se toman automáticamente de las variables de entorno configuradas,
-    simplificando la integración y manteniendo consistencia en el branding.
-    
-    Attributes:
-        email (EmailStr): **Dirección de correo electrónico** del destinatario.
-                         Validación automática RFC-compliant.
-        code (str): **Código OTP alfanumérico** de verificación temporal.
-                   Entre 4-8 caracteres (letras, números o combinación).
-        expiry_minutes (Optional[int]): **Tiempo de expiración** en minutos.
-                                       Si es 0 o None, no se muestra mensaje de expiración.
-        redirect_url (Optional[str]): **URL de redirección automática**.
-                                     Si no se proporciona, no se muestra botón.
-    
-    Note:
-        - `app_name` se toma de la variable de entorno APP_NAME
-        - `logo_url` se toma de la variable de entorno COMPANY_LOGO_URL
-        - Esto garantiza consistencia en el branding y simplifica la integración
-    
-    Example:
-        >>> # Caso típico - solo datos esenciales
-        >>> request = OTPEmailRequest(
-        ...     email="usuario@ejemplo.com",
-        ...     code="A1B2C3",
-        ...     expiry_minutes=15,
-        ...     redirect_url="https://app.com/verify?token=abc123"
-        ... )
-        >>> 
-        >>> # Caso mínimo - solo email y código
-        >>> request_minimal = OTPEmailRequest(
-        ...     email="usuario@ejemplo.com",
-        ...     code="XYZ789"
-        ... )
+    Request model for multi-channel OTP (One-Time Password) dispatch.
     """
-    
     email: EmailStr = Field(
         ...,
-        description="**Email del destinatario** - Debe ser RFC-compliant",
-        example="usuario@ejemplo.com"
+        description="**Recipient** - Email address or contact identifier",
+        example="user@example.com"
     )
     
     code: str = Field(
         ...,
         min_length=4,
         max_length=8,
-        description="**Código OTP** - Entre 4 y 8 caracteres (alfanumérico)",
+        description="**OTP Code** - Between 4 and 8 characters",
         example="A1B2C3"
     )
-    
-
     
     expiry_minutes: Optional[int] = Field(
         None,
         ge=0,
-        le=1440,  # Máximo 24 horas
-        description="**Tiempo de expiración** en minutos. Si es 0 o None, no se muestra mensaje",
+        le=1440,
+        description="**Expiration time** in minutes",
         example=10
     )
     
     redirect_url: Optional[str] = Field(
         None,
         max_length=2048,
-        description="**URL de redirección** - Botón opcional para redirigir al usuario automáticamente",
+        description="**Redirect URL** (Optional)",
         example="https://app.com/dashboard?verified=true"
+    )
+
+    channel: MessageChannel = Field(
+        default=MessageChannel.EMAIL,
+        description="**Delivery Channel** - Email, SMS, or WhatsApp"
     )
     
     @validator('redirect_url')
     def validate_redirect_url(cls, v):
-        """Valida que la URL de redirección tenga formato correcto si se proporciona."""
         if v is not None and v.strip():
             if not (v.startswith('http://') or v.startswith('https://')):
-                raise ValueError('URL de redirección debe comenzar con http:// o https://')
+                raise ValueError('Redirect URL must start with http:// or https://')
         return v
     
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
-                "email": "usuario@ejemplo.com",
+                "email": "user@example.com",
                 "code": "A1B2C3",
                 "expiry_minutes": 10,
-                "redirect_url": "https://app.com/dashboard?verified=true"
+                "redirect_url": "https://app.com/dashboard?verified=true",
+                "channel": "email"
             }
         }
 
 
-class OTPEmailResponse(BaseModel):
+class WelcomeRequest(BaseModel):
     """
-    Respuesta estándar para operaciones de envío de email OTP.
-    
-    Proporciona información detallada sobre el resultado del envío incluyendo
-    timestamps y configuración aplicada para debugging y confirmación.
-    
-    Attributes:
-        success (bool): **Estado del envío** - True si fue exitoso.
-        message (str): **Mensaje descriptivo** del resultado.
-        email_sent_to (str): **Email de destino** - Confirmación del destinatario.
-        timestamp (str): **Timestamp ISO** - Momento exacto del envío.
-        expiry_minutes (Optional[int]): **Minutos de expiración** aplicados.
-        has_verification_button (bool): **Indica si se incluyó botón** de verificación.
-        logo_used (str): **URL del logo** utilizado en el email.
+    Request model for user onboarding/welcome message dispatch.
     """
-    
-    success: bool = Field(
-        ...,
-        description="**Estado del envío** - True si fue exitoso"
+    email: EmailStr = Field(..., description="Recipient email address")
+    user_name: str = Field(..., description="Name of the user for personalization")
+    login_url: Optional[str] = Field(None, description="Direct login link")
+    channel: MessageChannel = Field(
+        default=MessageChannel.EMAIL,
+        description="Delivery channel selection"
     )
-    
-    message: str = Field(
-        ...,
-        description="**Mensaje descriptivo** - Detalles del resultado"
-    )
-    
-    email_sent_to: str = Field(
-        ...,
-        description="**Email de destino** - Confirmación del destinatario"
-    )
-    
-    timestamp: str = Field(
-        ...,
-        description="**Timestamp ISO** - Momento exacto del envío"
-    )
-    
-    expiry_minutes: Optional[int] = Field(
-        None,
-        description="**Minutos de expiración** - Configuración aplicada"
-    )
-    
-    has_verification_button: bool = Field(
-        ...,
-        description="**Botón de verificación** - True si se incluyó en el email"
-    )
-    
-    logo_used: str = Field(
-        ...,
-        description="**URL del logo** - Logo utilizado en el email"
-    )
+
+
+class OTPResponse(BaseModel):
+    """
+    Standard response model for messaging operations.
+    """
+    success: bool = Field(..., description="**Dispatch Status** - True if successful")
+    message: str = Field(..., description="**Result Message** - Detailed outcome information")
+    sent_to: str = Field(..., description="**Recipient Confirmation**")
+    timestamp: str = Field(..., description="**ISO Timestamp**")
+    expiry_minutes: Optional[int] = Field(None, description="**Applied expiration** in minutes")
+    has_action_button: bool = Field(False, description="**Action Button Included**")
+    logo_used: Optional[str] = Field(None, description="**Branding Logo URL**")
     
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "success": True,
-                "message": "Código OTP enviado exitosamente",
-                "email_sent_to": "usuario@ejemplo.com",
-                "timestamp": "2025-01-19T10:30:00Z",
-                "expiry_minutes": 10,
-                "has_verification_button": True,
-                "logo_used": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5mug1kZAbRtSexOlAnCSRDudlfe-GKxYfQA&s"
+                "message": "Message dispatched successfully",
+                "sent_to": "user@example.com",
+                "timestamp": "2025-01-19T10:30:00Z"
             }
         }

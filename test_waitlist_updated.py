@@ -13,8 +13,8 @@ from pathlib import Path
 # Agregar el directorio raíz al path para importar módulos
 sys.path.insert(0, str(Path(__file__).parent))
 
-from app.waitlist.models import WaitlistEmailRequest, WaitlistEmailResponse
-from app.waitlist.controller import EmailWaitlistApplication
+from app.waitlist.models import WaitlistRequest, WaitlistResponse
+from app.waitlist.controller import WaitlistApplication
 from app.config import settings
 
 def test_waitlist_models_with_offerings():
@@ -22,7 +22,7 @@ def test_waitlist_models_with_offerings():
     print("🧪 Probando modelos de waitlist con ofertas...")
     
     # Caso con múltiples ofertas
-    request_multiple = WaitlistEmailRequest(
+    request_multiple = WaitlistRequest(
         email="usuario@ejemplo.com",
         user_name="Juan Pérez",
         website_url="https://miapp.com",
@@ -31,7 +31,7 @@ def test_waitlist_models_with_offerings():
     print(f"✅ Request múltiples ofertas: {request_multiple.dict()}")
     
     # Caso con una sola oferta
-    request_single = WaitlistEmailRequest(
+    request_single = WaitlistRequest(
         email="maria@empresa.com",
         user_name="María González",
         offerings=["CRM Avanzado"]
