@@ -11,4 +11,5 @@ dependencies = [
     "jinja2>=3.1.6",
     "pydantic[email]>=2.11.7",
     "aiosmtplib>=5.1.0",
+    "httpx>=0.28.1",
 ]

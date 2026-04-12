@@ -36,6 +36,11 @@ class Settings(BaseSettings):
     SUPPORT_EMAIL: str = os.getenv("SUPPORT_EMAIL", "")
     WEBSITE_URL: str = os.getenv("WEBSITE_URL", "")
 
+    # INTER-SERVICE CONFIGURATION
+    # Pattern: SERVICE_<SERVICE_NAME>_URL (see api_middleware/.env.example)
+    # If empty, events are stored in InMemoryAuditRepository only (graceful degradation).
+    SERVICE_LOGGER_TRACER_URL: str = os.getenv("SERVICE_LOGGER_TRACER_URL", "")
+
     class Config:
         case_sensitive = True
 

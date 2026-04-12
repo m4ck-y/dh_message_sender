@@ -3,6 +3,7 @@ from app.core.messaging.interfaces import IMessageProvider
 from app.core.messaging.models import MessagePayload
 from app.audit.models import MessageAuditEntry, MessageStatus, MessageChannel
 from app.audit.provider import get_audit_repository
+from app.utils.observability import emit_event
 from app.config import settings
 
 # Provider implementations
@@ -35,13 +36,38 @@ class MessageDispatcher:
         try:
             await provider.send(payload)
             self._log_audit(payload, MessageStatus.SUCCESS)
+            await emit_event(
+                event=f"{payload.channel.value}.sent",
+                status="success",
+                channel=payload.channel.value,
+                recipient=payload.recipient,
+                message_type=payload.metadata.get("message_type", "Unknown"),
+                metadata=payload.payload_details
+            )
         except NotImplementedError as e:
-            # specifically catch non-implemented channels to provide clear audit feedback
             error_msg = str(e)
             self._log_audit(payload, MessageStatus.FAILED, error_msg)
+            await emit_event(
+                event=f"{payload.channel.value}.failed",
+                status="failed",
+                channel=payload.channel.value,
+                recipient=payload.recipient,
+                message_type=payload.metadata.get("message_type", "Unknown"),
+                error=error_msg,
+                metadata=payload.payload_details
+            )
             raise e
         except Exception as e:
             self._log_audit(payload, MessageStatus.FAILED, str(e))
+            await emit_event(
+                event=f"{payload.channel.value}.failed",
+                status="failed",
+                channel=payload.channel.value,
+                recipient=payload.recipient,
+                message_type=payload.metadata.get("message_type", "Unknown"),
+                error=str(e),
+                metadata=payload.payload_details
+            )
             raise e
 
     def _log_audit(self, payload: MessagePayload, status: MessageStatus, error_message: str = None):
