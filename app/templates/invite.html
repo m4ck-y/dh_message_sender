@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación - {{ app_name }}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #eff6ff; line-height: 1.6; padding: 20px 0; }
+        a { color: #1d4ed8; }
+        @media (max-width: 600px) {
+            .wrapper { margin: 0 10px !important; }
+            .content { padding: 28px 20px !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper" style="max-width:600px; margin:20px auto; background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+
+        <!-- Header -->
+        <div style="background:linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%); padding:44px 40px; text-align:center;">
+            {% if logo_url %}
+            <img src="{{ logo_url }}" alt="{{ app_name }}" style="max-width:110px; border-radius:10px; margin-bottom:20px; display:block; margin-left:auto; margin-right:auto;">
+            {% endif %}
+            <div style="display:inline-block; background:rgba(255,255,255,0.15); border-radius:50px; padding:6px 18px; font-size:13px; font-weight:600; color:#ffffff; margin-bottom:14px;">🎯 Acceso exclusivo</div>
+            <h1 style="color:#ffffff; font-size:26px; font-weight:700; margin:0;">¡Estás invitado!</h1>
+            <p style="color:rgba(255,255,255,0.85); font-size:15px; margin-top:8px;">Tu acceso a {{ app_name }} está listo</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content" style="padding:44px 40px; text-align:center;">
+            <p style="color:#1e293b; font-size:17px; margin-bottom:16px; text-align:left;">
+                Hola <strong>{{ user_name }}</strong>,
+            </p>
+            <p style="color:#475569; font-size:15px; margin-bottom:32px; text-align:left;">
+                Nos complace informarte que has sido seleccionado para acceder a <strong>{{ app_name }}</strong>.
+                Haz clic en el botón para completar tu registro y activar tu cuenta.
+            </p>
+
+            <!-- CTA -->
+            <a href="{{ invite_link }}" style="display:inline-block; background:linear-gradient(135deg, #1d4ed8, #2563eb); color:#ffffff; text-decoration:none; padding:16px 40px; border-radius:12px; font-weight:700; font-size:16px; box-shadow:0 4px 14px rgba(29,78,216,0.35);">Completar mi registro</a>
+
+            <!-- Expiry -->
+            <p style="color:#ef4444; font-size:13px; font-weight:600; margin-top:16px; margin-bottom:32px;">⏳ Esta invitación expira el {{ token_expires_at }}</p>
+
+            <!-- Warning card -->
+            <div style="background:#fef9c3; border:1px solid #fde047; border-radius:10px; padding:14px 20px; margin-bottom:28px; text-align:left;">
+                <p style="color:#854d0e; font-size:13px; margin:0;">⚠️ Este enlace es personal e intransferible. No lo compartas con nadie.</p>
+            </div>
+
+            <!-- Link fallback -->
+            <div style="background:#f8fafc; border-radius:10px; padding:16px 20px; text-align:left; margin-bottom:24px;">
+                <p style="color:#64748b; font-size:13px; margin-bottom:8px;">Si el botón no funciona, copia este enlace en tu navegador:</p>
+                <p style="word-break:break-all; font-size:12px;"><a href="{{ invite_link }}" style="color:#1d4ed8;">{{ invite_link }}</a></p>
+            </div>
+
+            <div style="border-top:1px solid #e2e8f0; padding-top:20px; text-align:left;">
+                <p style="color:#64748b; font-size:14px;">¿Necesitas ayuda? <a href="mailto:{{ support_email }}">{{ support_email }}</a></p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="background:#f8fafc; padding:24px 40px; text-align:center; border-top:1px solid #e2e8f0;">
+            <div style="margin-bottom:12px;">
+                <a href="mailto:{{ support_email }}" style="color:#64748b; font-size:12px; text-decoration:none; margin:0 10px; padding:6px 10px; background:#ffffff; border:1px solid #e2e8f0; border-radius:6px;">Soporte</a>
+                <a href="{{ website_url }}/privacy" style="color:#64748b; font-size:12px; text-decoration:none; margin:0 10px; padding:6px 10px; background:#ffffff; border:1px solid #e2e8f0; border-radius:6px;">Privacidad</a>
+                <a href="{{ website_url }}/terms" style="color:#64748b; font-size:12px; text-decoration:none; margin:0 10px; padding:6px 10px; background:#ffffff; border:1px solid #e2e8f0; border-radius:6px;">Términos</a>
+            </div>
+            <p style="color:#94a3b8; font-size:12px;">© {{ company_name }}. Todos los derechos reservados.<br>Este es un correo automático, no respondas directamente.</p>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,290 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>¡Gracias por registrarte! - {{ app_name }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>En lista de espera - {{ app_name }}</title>
     <style>
-        /* Reset styles for email compatibility */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #0082B9 100%);
-            margin: 0;
-            padding: 20px 0;
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-
-        .email-wrapper {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .header {
-            background: linear-gradient(135deg, #4f46e5 0%, #0082B9 100%);
-            padding: 40px 30px;
-            text-align: center;
-            position: relative;
-        }
-
-        .logo {
-            position: relative;
-            z-index: 2;
-            margin-bottom: 20px;
-        }
-
-        .logo img {
-            max-width: 120px;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .header-title {
-            color: #ffffff;
-            font-size: 28px;
-            font-weight: 700;
-            margin: 0;
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-subtitle {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 16px;
-            margin-top: 8px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .content {
-            padding: 50px 40px;
-            text-align: center;
-        }
-
-        .security-badge {
-            display: inline-flex;
-            align-items: center;
-            color: #0082B9;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
-
-        .security-badge::before {
-            content: '✅';
-            margin-right: 8px;
-        }
-
-        .main-message {
-            color: #1f2937;
-            font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 30px;
-            line-height: 1.7;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #4f46e5 0%, #0082B9 100%);
-            color: #ffffff;
-            text-decoration: none;
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 16px;
-            margin: 30px 0;
-            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(79, 70, 229, 0.4);
-        }
-
-        .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
-            margin: 40px 0;
-        }
-
-        .help-section {
-            background: #f9fafb;
-            padding: 30px;
-            border-radius: 12px;
-            margin: 30px 0;
-        }
-
-        .help-title {
-            color: #374151;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .help-text {
-            color: #6b7280;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-
-        .footer {
-            background: #f8fafc;
-            padding: 30px 40px;
-            text-align: center;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .footer-text {
-            color: #6b7280;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .company-info {
-            color: #9ca3af;
-            font-size: 12px;
-            margin-top: 20px;
-        }
-
-        .social-links {
-            margin: 20px 0;
-        }
-
-        .social-links a {
-            display: inline-block;
-            margin: 0 10px;
-            color: #6b7280;
-            text-decoration: none;
-            font-size: 12px;
-            padding: 8px 12px;
-            border-radius: 6px;
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            transition: all 0.2s ease;
-        }
-
-        .social-links a:hover {
-            background: #f3f4f6;
-            border-color: #d1d5db;
-        }
-
-        /* Mobile responsiveness */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f0f9ff; line-height: 1.6; padding: 20px 0; }
+        a { color: #0082B9; }
         @media (max-width: 600px) {
-            body {
-                padding: 10px 0;
-            }
-
-            .email-wrapper {
-                margin: 0 10px;
-                border-radius: 12px;
-            }
-
-            .header {
-                padding: 30px 20px;
-            }
-
-            .header-title {
-                font-size: 24px;
-            }
-
-            .content {
-                padding: 30px 20px;
-            }
-
-            .footer {
-                padding: 20px;
-            }
+            .wrapper { margin: 0 10px !important; }
+            .content { padding: 28px 20px !important; }
         }
     </style>
 </head>
-
 <body>
-    <div class="email-wrapper">
+    <div class="wrapper" style="max-width:600px; margin:20px auto; background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,0.08);">
+
         <!-- Header -->
-        <div class="header">
-            <div class="logo">
-                <img src="{{ logo_url }}" alt="Logo {{ app_name }}" />
-            </div>
-            <h1 class="header-title">¡Gracias por unirte!</h1>
-            <p class="header-subtitle">Ya tenemos tu correo registrado</p>
+        <div style="background:linear-gradient(135deg, #0082B9 0%, #38bdf8 100%); padding:44px 40px; text-align:center;">
+            {% if logo_url %}
+            <img src="{{ logo_url }}" alt="{{ app_name }}" style="max-width:110px; border-radius:10px; margin-bottom:20px; display:block; margin-left:auto; margin-right:auto;">
+            {% endif %}
+            <div style="display:inline-block; background:rgba(255,255,255,0.2); border-radius:50px; padding:6px 18px; font-size:13px; font-weight:600; color:#ffffff; margin-bottom:14px;">✅ Registro confirmado</div>
+            <h1 style="color:#ffffff; font-size:26px; font-weight:700; margin:0;">¡Ya estás en la lista!</h1>
+            <p style="color:rgba(255,255,255,0.9); font-size:15px; margin-top:8px;">Te avisaremos cuando sea tu turno</p>
         </div>
 
         <!-- Content -->
-        <div class="content">
-            <div class="security-badge">Registro Confirmado</div>
-
-            <p class="main-message">
-                Hola <strong>{{ user_name }}</strong>,<br><br>
-                Hemos registrado exitosamente tu correo (<strong>{{ user_email }}</strong>) en nuestra lista de
-                notificaciones.<br><br>
-                {{ availability_message|safe }}, te enviaremos un correo para que puedas acceder al sistema y disfrutar
-                todas
-                sus funcionalidades.
+        <div class="content" style="padding:44px 40px;">
+            <p style="color:#1e293b; font-size:17px; margin-bottom:20px;">
+                Hola <strong>{{ user_name }}</strong>,
+            </p>
+            <p style="color:#475569; font-size:15px; margin-bottom:24px;">
+                Hemos registrado exitosamente tu correo <strong>{{ user_email }}</strong> en nuestra lista de espera.
+                {{ availability_message|safe }}, te enviaremos un correo para que puedas acceder al sistema.
             </p>
 
+            <!-- Info card -->
+            <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:12px; padding:20px 24px; margin-bottom:28px;">
+                <p style="color:#0369a1; font-size:14px; font-weight:600; margin-bottom:6px;">¿Qué sigue?</p>
+                <p style="color:#0369a1; font-size:14px; margin:0;">Cuando haya disponibilidad, recibirás un correo de invitación con un enlace para completar tu registro.</p>
+            </div>
+
             {% if show_website_button %}
-            <a href="{{ website_url }}" class="cta-button" style="color: #ffffff !important; text-decoration: none !important;">Visitar nuestra página</a>
+            <div style="text-align:center; margin-bottom:28px;">
+                <a href="{{ website_url }}" style="display:inline-block; background:#0082B9; color:#ffffff; text-decoration:none; padding:14px 32px; border-radius:10px; font-weight:700; font-size:15px;">Visitar nuestra página</a>
+            </div>
             {% endif %}
 
-            <div class="divider"></div>
-
-            <!-- Help -->
-            <div class="help-section">
-                <h3 class="help-title">¿Tienes alguna pregunta?</h3>
-                <p class="help-text">
-                    Puedes escribirnos a <a href="mailto:{{ support_email }}">{{ support_email }}</a> si necesitas más
-                    información sobre el proyecto o el proceso de lanzamiento.
+            <div style="border-top:1px solid #e2e8f0; padding-top:24px; margin-top:8px;">
+                <p style="color:#64748b; font-size:14px;">
+                    ¿Tienes preguntas? Escríbenos a <a href="mailto:{{ support_email }}">{{ support_email }}</a>
                 </p>
             </div>
         </div>
 
         <!-- Footer -->
-        <div class="footer">
-            <p class="footer-text">
-                {% if message_type == 'platform' %}
-                Este email confirma que estás inscrito para recibir notificaciones de lanzamiento de <strong>{{ app_name
-                    }}</strong>.
-                {% elif message_type == 'single' %}
-                Este email confirma que estás inscrito para recibir notificaciones de lanzamiento de {{
-                offerings_text_html|safe }}.
-                {% else %}
-                Este email confirma que estás inscrito para recibir notificaciones de lanzamiento de nuestras soluciones
-                {{ offerings_text_html|safe }}.
-                {% endif %}
-            </p>
-
-            <div class="social-links">
-                <a href="mailto:{{ support_email }}">Soporte</a>
-                <a href="{{ website_url }}/privacy">Privacidad</a>
-                <a href="{{ website_url }}/terms">Términos</a>
+        <div style="background:#f8fafc; padding:24px 40px; text-align:center; border-top:1px solid #e2e8f0;">
+            <div style="margin-bottom:12px;">
+                <a href="mailto:{{ support_email }}" style="color:#64748b; font-size:12px; text-decoration:none; margin:0 10px; padding:6px 10px; background:#ffffff; border:1px solid #e2e8f0; border-radius:6px;">Soporte</a>
+                <a href="{{ website_url }}/privacy" style="color:#64748b; font-size:12px; text-decoration:none; margin:0 10px; padding:6px 10px; background:#ffffff; border:1px solid #e2e8f0; border-radius:6px;">Privacidad</a>
+                <a href="{{ website_url }}/terms" style="color:#64748b; font-size:12px; text-decoration:none; margin:0 10px; padding:6px 10px; background:#ffffff; border:1px solid #e2e8f0; border-radius:6px;">Términos</a>
             </div>
-
-            <p class="company-info">
-                © 2025 {{ company_name }}. Todos los derechos reservados.<br />
-                Este es un mensaje automático, no respondas directamente.
-            </p>
+            <p style="color:#94a3b8; font-size:12px;">© {{ company_name }}. Todos los derechos reservados.<br>Este es un correo automático, no respondas directamente.</p>
         </div>
+
     </div>
 </body>
-
 </html>

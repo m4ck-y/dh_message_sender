@@ -1,41 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido - {{ app_name }}</title>
     <style>
-        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f4f7f9; }
-        .container { max-width: 600px; margin: 20px auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .header { background: linear-gradient(135deg, #2563eb, #3b82f6); padding: 40px; text-align: center; color: white; }
-        .content { padding: 40px; }
-        .footer { background: #f8fafc; padding: 20px; text-align: center; font-size: 12px; color: #64748b; }
-        .button { display: inline-block; padding: 14px 28px; background-color: #2563eb; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin-top: 20px; }
-        .logo { max-width: 150px; margin-bottom: 20px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f0fdf4; line-height: 1.6; padding: 20px 0; }
+        a { color: #0082B9; }
+        @media (max-width: 600px) {
+            .wrapper { margin: 0 10px !important; }
+            .content { padding: 28px 20px !important; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            {% if logo_url %}<img src="{{ logo_url }}" class="logo" alt="{{ app_name }}">{% endif %}
-            <h1>¡Bienvenido a {{ app_name }}!</h1>
+    <div class="wrapper" style="max-width:600px; margin:20px auto; background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,0.08);">
+
+        <!-- Header -->
+        <div style="background:linear-gradient(135deg, #0082B9 0%, #0d9488 100%); padding:44px 40px; text-align:center;">
+            {% if logo_url %}
+            <img src="{{ logo_url }}" alt="{{ app_name }}" style="max-width:110px; border-radius:10px; margin-bottom:20px; display:block; margin-left:auto; margin-right:auto;">
+            {% endif %}
+            <div style="display:inline-block; background:rgba(255,255,255,0.2); border-radius:50px; padding:6px 18px; font-size:13px; font-weight:600; color:#ffffff; margin-bottom:14px;">🎉 Cuenta aprobada</div>
+            <h1 style="color:#ffffff; font-size:26px; font-weight:700; margin:0;">¡Bienvenido a {{ app_name }}!</h1>
+            <p style="color:rgba(255,255,255,0.9); font-size:15px; margin-top:8px;">Tu registro ha sido aprobado</p>
         </div>
-        <div class="content">
-            <p>Hola <strong>{{ user_name }}</strong>,</p>
-            <p>Estamos encantados de tenerte con nosotros. Tu cuenta ha sido creada exitosamente con el correo <strong>{{ email }}</strong>.</p>
-            <p>En {{ app_name }}, nos esforzamos por ofrecerte la mejor experiencia en gestión hospitalaria digital.</p>
-            
+
+        <!-- Content -->
+        <div class="content" style="padding:44px 40px;">
+            <p style="color:#1e293b; font-size:17px; margin-bottom:16px;">
+                Hola <strong>{{ user_name }}</strong>,
+            </p>
+            <p style="color:#475569; font-size:15px; margin-bottom:28px;">
+                Estamos encantados de tenerte con nosotros. Tu cuenta ha sido revisada y aprobada.
+                Ya puedes acceder a <strong>{{ app_name }}</strong> con tu correo <strong>{{ email }}</strong>.
+            </p>
+
+            <!-- Success card -->
+            <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:12px; padding:20px 24px; margin-bottom:28px;">
+                <p style="color:#15803d; font-size:14px; font-weight:600; margin-bottom:8px;">✅ Tu cuenta está lista</p>
+                <p style="color:#166534; font-size:14px; margin:0;">Tienes acceso completo al sistema. Si tienes alguna duda sobre cómo empezar, nuestro equipo de soporte está disponible para ayudarte.</p>
+            </div>
+
             {% if login_url %}
-            <div style="text-align: center;">
-                <a href="{{ login_url }}" class="button">Acceder a mi cuenta</a>
+            <div style="text-align:center; margin-bottom:28px;">
+                <a href="{{ login_url }}" style="display:inline-block; background:linear-gradient(135deg, #0082B9, #0d9488); color:#ffffff; text-decoration:none; padding:15px 36px; border-radius:12px; font-weight:700; font-size:16px; box-shadow:0 4px 14px rgba(0,130,185,0.3);">Acceder a mi cuenta</a>
             </div>
             {% endif %}
 
-            <p>Si tienes alguna pregunta, no dudes en contactar a nuestro equipo de soporte en <a href="mailto:{{ support_email }}">{{ support_email }}</a>.</p>
-            <p>Saludos,<br>El equipo de {{ company_name }}</p>
+            <div style="border-top:1px solid #e2e8f0; padding-top:24px;">
+                <p style="color:#64748b; font-size:14px;">
+                    Saludos,<br>
+                    <strong>El equipo de {{ company_name }}</strong><br>
+                    <a href="mailto:{{ support_email }}">{{ support_email }}</a>
+                </p>
+            </div>
         </div>
-        <div class="footer">
-            &copy; {{ current_year }} {{ company_name }}. Todos los derechos reservados.<br>
-            <a href="{{ website_url }}">Visitar nuestro sitio web</a>
+
+        <!-- Footer -->
+        <div style="background:#f8fafc; padding:24px 40px; text-align:center; border-top:1px solid #e2e8f0;">
+            <div style="margin-bottom:12px;">
+                <a href="mailto:{{ support_email }}" style="color:#64748b; font-size:12px; text-decoration:none; margin:0 10px; padding:6px 10px; background:#ffffff; border:1px solid #e2e8f0; border-radius:6px;">Soporte</a>
+                <a href="{{ website_url }}/privacy" style="color:#64748b; font-size:12px; text-decoration:none; margin:0 10px; padding:6px 10px; background:#ffffff; border:1px solid #e2e8f0; border-radius:6px;">Privacidad</a>
+                <a href="{{ website_url }}/terms" style="color:#64748b; font-size:12px; text-decoration:none; margin:0 10px; padding:6px 10px; background:#ffffff; border:1px solid #e2e8f0; border-radius:6px;">Términos</a>
+            </div>
+            <p style="color:#94a3b8; font-size:12px;">© {{ current_year }} {{ company_name }}. Todos los derechos reservados.</p>
         </div>
+
     </div>
 </body>
 </html>

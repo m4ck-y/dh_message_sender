@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     # API CONFIGURATION
     APP_NAME: str = os.getenv("APP_NAME", "PulseCore")
     DEBUG: bool = os.getenv("DEBUG", "False").lower() == "true"
+    # Values: development | staging | production
+    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
     
     # CORS CONFIGURATION
     ALLOWED_ORIGINS: str = os.getenv("ALLOWED_ORIGINS", "*")

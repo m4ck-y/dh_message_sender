@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from datetime import datetime
+from datetime import datetime, timezone
 from uuid import UUID, uuid4
 from enum import Enum
 from typing import Optional, Dict, Any
@@ -22,4 +22,4 @@ class MessageAuditEntry(BaseModel):
     status: MessageStatus
     payload_details: Dict[str, Any] = Field(default_factory=dict)
     error_message: Optional[str] = None
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))

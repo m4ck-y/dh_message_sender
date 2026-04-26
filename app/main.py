@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
-from app.otp.router import router_otp, TAG_OTP
+from app.otp.router import router_otp, router_notifications, TAG_OTP, TAG_NOTIFICATIONS
 from app.waitlist.router import router_waitlist, TAG_WAITLIST
 from app.audit.router import router_audit
 
@@ -25,11 +25,7 @@ Centralized API for multi-channel communication management.
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json",
-    openapi_tags=[
-        TAG_OTP, 
-        TAG_WAITLIST, 
-        {"name": "Audit", "description": "Full message traceability"}
-    ]
+    openapi_tags=[TAG_OTP, TAG_NOTIFICATIONS, TAG_WAITLIST, {"name": "Audit", "description": "Full message traceability"}]
 )
 
 # CORS Configuration
@@ -61,5 +57,6 @@ async def health_check():
     }
 
 app.include_router(router_otp)
+app.include_router(router_notifications)
 app.include_router(router_waitlist)
 app.include_router(router_audit)

@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, EmailStr, validator
 from typing import Optional, List
+from datetime import datetime
 from app.core.messaging.models import MessageChannel
 
 
@@ -54,6 +55,15 @@ class WaitlistRequest(BaseModel):
                 "channel": "email"
             }
         }
+
+
+class InviteRequest(BaseModel):
+    """Request model for sending a waitlist invitation email with onboarding token."""
+    email: EmailStr = Field(..., description="Recipient email address.", examples=["juan.perez@example.com"])
+    client_name: str = Field(..., description="Name of the lead for personalization.", examples=["Juan Pérez"])
+    invite_token: str = Field(..., description="Secure token to start the onboarding process.", examples=["tok_a1b2c3d4"])
+    token_expires_at: datetime = Field(..., description="UTC expiry of the invite token.", examples=["2026-05-03T10:30:00Z"])
+    channel: MessageChannel = Field(default=MessageChannel.EMAIL, description="Delivery channel.")
 
 
 class WaitlistResponse(BaseModel):

@@ -20,12 +20,13 @@ class SmtpEmailProvider(IMessageProvider):
         message["To"] = payload.recipient
         message["Subject"] = payload.subject
         
-        # Default to HTML content
-        message.set_content(payload.body_html, subtype="html")
-        
-        # Add plain text version if available
+        # multipart/alternative order matters: clients display the LAST part they support.
+        # Plain text goes first (fallback), HTML goes last (preferred).
         if payload.body_text:
-            message.add_alternative(payload.body_text, subtype="plain")
+            message.set_content(payload.body_text, subtype="plain")
+            message.add_alternative(payload.body_html, subtype="html")
+        else:
+            message.set_content(payload.body_html, subtype="html")
 
         try:
             # Modern smart TLS selection based on standard port conventions

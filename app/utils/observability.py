@@ -13,6 +13,16 @@ from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 from app.config import settings
 
+# Normalize caller-supplied log levels (legacy lowercase) to LogLevel enum values
+_LEVEL_NORMALIZE = {
+    "debug": "DEBUG",
+    "info": "INFO",
+    "warn": "WARNING",
+    "warning": "WARNING",
+    "error": "ERROR",
+    "fatal": "FATAL",
+}
+
 
 async def emit_event(
     event: str,
@@ -24,26 +34,20 @@ async def emit_event(
     error: Optional[str] = None,
 ) -> None:
     """
-    Emits a structured business event to the Observability Gateway.
-
-    Maps a PulseCore message dispatch outcome to a canonical `EventEntry`
-    payload and POSTs it to `POST /v1/events/` on `app_logger_tracer`.
-
-    This call is non-blocking and uses a short timeout (3 s) so that a slow
-    or unreachable Gateway never delays the main messaging flow.
+    Emits a structured business event to VitalTrace (EventEntry schema).
 
     Args:
         event:        Dot-notation event name (e.g. "email.sent", "sms.failed").
         status:       "success" | "failed".
         channel:      Transport channel ("email", "sms", "whatsapp").
-        recipient:    Target address (email or phone). PII — keep in metadata only.
-        message_type: Template/category key (e.g. "OTP", "Waitlist", "Welcome").
+        recipient:    Target address. PII — kept inside metadata only.
+        message_type: Template/category key (e.g. "OTP", "Waitlist", "Invite").
         metadata:     Arbitrary key-value context forwarded as EventEntry.metadata.
         error:        Optional error string on failed dispatches.
     """
     gateway_url = settings.SERVICE_LOGGER_TRACER_URL
     if not gateway_url:
-        return  # Graceful degradation — no gateway configured
+        return
 
     payload = {
         "event": event,
@@ -64,7 +68,6 @@ async def emit_event(
         async with httpx.AsyncClient(timeout=3.0) as client:
             await client.post(f"{gateway_url}/v1/events/", json=payload)
     except Exception as exc:
-        # Never let a telemetry failure crash the main service
         print(f"[WARN] observability.emit_event failed silently: {exc}")
 
 
@@ -75,28 +78,28 @@ async def emit_log(
     metadata: Optional[Dict[str, Any]] = None,
 ) -> None:
     """
-    Emits a structured log entry to the Observability Gateway.
-
-    Use this for infrastructure-level messages (startup, config errors, retries)
-    that don't map neatly to a business event.
+    Emits a structured log entry to VitalTrace (LogEntry schema).
 
     Args:
-        level:   "info" | "warn" | "error" | "debug".
-        message: Human-readable description of what happened.
-        event:   Dot-notation event key. Defaults to "pulsecore.log".
-        metadata:Arbitrary supplemental context.
+        level:    Log level — accepts "DEBUG", "INFO", "WARNING", "ERROR", "FATAL"
+                  (also accepts legacy lowercase: "info", "warn", "error").
+        message:  Human-readable description of what happened.
+        event:    Dot-notation event key. Defaults to "pulsecore.log".
+        metadata: Arbitrary supplemental context.
     """
     gateway_url = settings.SERVICE_LOGGER_TRACER_URL
     if not gateway_url:
         return
 
+    level_normalized = _LEVEL_NORMALIZE.get(level.lower(), level.upper())
+
     payload = {
-        "level": level,
+        "level": level_normalized,
         "event": event,
         "message": message,
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "service": "app_message_sender",
-        "environment": "dev" if settings.DEBUG else "prod",
+        "environment": settings.ENVIRONMENT,
         "metadata": metadata or {},
     }
 
