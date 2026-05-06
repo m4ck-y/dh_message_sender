@@ -17,8 +17,10 @@ class Settings(BaseSettings):
     DEBUG: bool = os.getenv("DEBUG", "False").lower() == "true"
     # Values: development | staging | production
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
+    ROOT_PATH: str = os.getenv("ROOT_PATH", "/api/message-sender")
     
     # CORS CONFIGURATION
+    CORS_ORIGINS: str = os.getenv("CORS_ORIGINS", "*")
     ALLOWED_ORIGINS: str = os.getenv("ALLOWED_ORIGINS", "*")
     ALLOWED_METHODS: str = os.getenv("ALLOWED_METHODS", "*")
     ALLOWED_HEADERS: str = os.getenv("ALLOWED_HEADERS", "*")

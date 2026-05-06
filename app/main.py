@@ -25,13 +25,14 @@ Centralized API for multi-channel communication management.
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json",
+    root_path=settings.ROOT_PATH,
     openapi_tags=[TAG_OTP, TAG_NOTIFICATIONS, TAG_WAITLIST, {"name": "Audit", "description": "Full message traceability"}]
 )
 
 # CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.ALLOWED_ORIGINS.split(","),
+    allow_origins=settings.CORS_ORIGINS.split(",") if isinstance(settings.CORS_ORIGINS, str) else settings.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=settings.ALLOWED_METHODS.split(","),
     allow_headers=settings.ALLOWED_HEADERS.split(","),
