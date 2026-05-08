@@ -2,7 +2,7 @@
 Observability utility for PulseCore.
 
 Provides fire-and-forget async helpers that ship message dispatch events
-to the `app_logger_tracer` Observability Gateway via its REST API.
+to the `dh_logger_tracer` Observability Gateway via its REST API.
 
 If `SERVICE_LOGGER_TRACER_URL` is not set, the functions silently degrade —
 events are only stored in the local InMemoryAuditRepository, ensuring

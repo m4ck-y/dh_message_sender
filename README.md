@@ -61,3 +61,75 @@ Detailed configuration for specific providers is available in the documentation 
 
 ---
 *Digital Hospital - PulseCore Component*
+
+## Systemd Service Management
+
+### 1. Copiar definición del servicio
+
+```bash
+sudo cp /home/m4ck-y/.me/dh/dh_message_sender/docs/dh_message_sender.service /etc/systemd/system/
+```
+
+O crearlo manualmente:
+
+```bash
+sudo nano /etc/systemd/system/dh_message_sender.service
+```
+
+### 2. Gestionar el servicio
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable dh_message_sender
+sudo systemctl start dh_message_sender
+sudo systemctl status dh_message_sender
+journalctl -u dh_message_sender -f
+```
+
+## Systemd Service Management
+
+### 1. Copiar definición del servicio
+
+```bash
+sudo cp /home/m4ck-y/.me/dh/dh_message_sender/docs/dh_message_sender.service /etc/systemd/system/
+```
+
+O crearlo manualmente:
+
+```bash
+sudo nano /etc/systemd/system/dh_message_sender.service
+```
+
+### 2. Gestionar el servicio
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable dh_message_sender
+sudo systemctl start dh_message_sender
+sudo systemctl status dh_message_sender
+journalctl -u dh_message_sender -f
+```
+
+## Systemd Service Management
+
+### 1. Copiar definición del servicio
+
+```bash
+sudo cp /home/m4ck-y/.me/dh/dh_message_sender/docs/dh_message_sender.service /etc/systemd/system/
+```
+
+O crearlo manualmente:
+
+```bash
+sudo nano /etc/systemd/system/dh_message_sender.service
+```
+
+### 2. Gestionar el servicio
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable dh_message_sender
+sudo systemctl start dh_message_sender
+sudo systemctl status dh_message_sender
+journalctl -u dh_message_sender -f
+```
