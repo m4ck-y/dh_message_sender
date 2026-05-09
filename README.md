@@ -67,23 +67,23 @@ Detailed configuration for specific providers is available in the documentation 
 ### 1. Copiar definición del servicio
 
 ```bash
-sudo cp /home/m4ck-y/.me/dh/dh_message_sender/docs/dh_message_sender.service /etc/systemd/system/
+sudo cp /home/m4ck-y/.me/dh/dh_notify/docs/dh_notify.service /etc/systemd/system/
 ```
 
 O crearlo manualmente:
 
 ```bash
-sudo nano /etc/systemd/system/dh_message_sender.service
+sudo nano /etc/systemd/system/dh_notify.service
 ```
 
 ### 2. Gestionar el servicio
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable dh_message_sender
-sudo systemctl start dh_message_sender
-sudo systemctl status dh_message_sender
-journalctl -u dh_message_sender -f
+sudo systemctl enable dh_notify
+sudo systemctl start dh_notify
+sudo systemctl status dh_notify
+journalctl -u dh_notify -f
 ```
 
 ## Systemd Service Management
@@ -91,23 +91,23 @@ journalctl -u dh_message_sender -f
 ### 1. Copiar definición del servicio
 
 ```bash
-sudo cp /home/m4ck-y/.me/dh/dh_message_sender/docs/dh_message_sender.service /etc/systemd/system/
+sudo cp /home/m4ck-y/.me/dh/dh_notify/docs/dh_notify.service /etc/systemd/system/
 ```
 
 O crearlo manualmente:
 
 ```bash
-sudo nano /etc/systemd/system/dh_message_sender.service
+sudo nano /etc/systemd/system/dh_notify.service
 ```
 
 ### 2. Gestionar el servicio
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable dh_message_sender
-sudo systemctl start dh_message_sender
-sudo systemctl status dh_message_sender
-journalctl -u dh_message_sender -f
+sudo systemctl enable dh_notify
+sudo systemctl start dh_notify
+sudo systemctl status dh_notify
+journalctl -u dh_notify -f
 ```
 
 ## Systemd Service Management
@@ -115,21 +115,21 @@ journalctl -u dh_message_sender -f
 ### 1. Copiar definición del servicio
 
 ```bash
-sudo cp /home/m4ck-y/.me/dh/dh_message_sender/docs/dh_message_sender.service /etc/systemd/system/
+sudo cp /home/m4ck-y/.me/dh/dh_notify/docs/dh_notify.service /etc/systemd/system/
 ```
 
 O crearlo manualmente:
 
 ```bash
-sudo nano /etc/systemd/system/dh_message_sender.service
+sudo nano /etc/systemd/system/dh_notify.service
 ```
 
 ### 2. Gestionar el servicio
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable dh_message_sender
-sudo systemctl start dh_message_sender
-sudo systemctl status dh_message_sender
-journalctl -u dh_message_sender -f
+sudo systemctl enable dh_notify
+sudo systemctl start dh_notify
+sudo systemctl status dh_notify
+journalctl -u dh_notify -f
 ```

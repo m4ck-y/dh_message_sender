@@ -4,10 +4,10 @@ After=network.target
 
 [Service]
 User=m4ck-y
-WorkingDirectory=/home/m4ck-y/.me/dh/dh_message_sender
+WorkingDirectory=/home/m4ck-y/.me/dh/dh_notify
 
 Environment="PYTHONUNBUFFERED=1"
-Environment="ROOT_PATH=/api/message_sender"
+Environment="ROOT_PATH=/api/notify"
 
 ExecStart=/home/m4ck-y/.local/bin/uv run uvicorn app.main:app --host 0.0.0.0 --port 8091
 

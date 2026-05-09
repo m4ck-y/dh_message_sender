@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     DEBUG: bool = os.getenv("DEBUG", "False").lower() == "true"
     # Values: development | staging | production
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
-    ROOT_PATH: str = os.getenv("ROOT_PATH", "/api/message-sender")
+    ROOT_PATH: str = os.getenv("ROOT_PATH", "/api/notify")
     
     # CORS CONFIGURATION
     CORS_ORIGINS: str = os.getenv("CORS_ORIGINS", "*")
@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     # INTER-SERVICE CONFIGURATION
     # Pattern: SERVICE_<SERVICE_NAME>_URL (see api_middleware/.env.example)
     # If empty, events are stored in InMemoryAuditRepository only (graceful degradation).
-    SERVICE_LOGGER_TRACER_URL: str = os.getenv("SERVICE_LOGGER_TRACER_URL", "")
+    SERVICE_LOGGER_URL: str = os.getenv("SERVICE_LOGGER_URL", "")
 
     class Config:
         case_sensitive = True

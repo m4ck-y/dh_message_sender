@@ -2,9 +2,9 @@
 Observability utility for PulseCore.
 
 Provides fire-and-forget async helpers that ship message dispatch events
-to the `dh_logger_tracer` Observability Gateway via its REST API.
+to the `dh_logger` Observability Gateway via its REST API.
 
-If `SERVICE_LOGGER_TRACER_URL` is not set, the functions silently degrade —
+If `SERVICE_LOGGER_URL` is not set, the functions silently degrade —
 events are only stored in the local InMemoryAuditRepository, ensuring
 PulseCore never fails due to a missing observability dependency.
 """
@@ -45,14 +45,14 @@ async def emit_event(
         metadata:     Arbitrary key-value context forwarded as EventEntry.metadata.
         error:        Optional error string on failed dispatches.
     """
-    gateway_url = settings.SERVICE_LOGGER_TRACER_URL
+    gateway_url = settings.SERVICE_LOGGER_URL
     if not gateway_url:
         return
 
     payload = {
         "event": event,
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "service": "app_message_sender",
+        "service": "dh_notify",
         "session_id": "system",
         "metadata": {
             "channel": channel,
@@ -87,7 +87,7 @@ async def emit_log(
         event:    Dot-notation event key. Defaults to "pulsecore.log".
         metadata: Arbitrary supplemental context.
     """
-    gateway_url = settings.SERVICE_LOGGER_TRACER_URL
+    gateway_url = settings.SERVICE_LOGGER_URL
     if not gateway_url:
         return
 
@@ -98,7 +98,7 @@ async def emit_log(
         "event": event,
         "message": message,
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "service": "app_message_sender",
+        "service": "dh_notify",
         "environment": settings.ENVIRONMENT,
         "metadata": metadata or {},
     }
