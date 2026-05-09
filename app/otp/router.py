@@ -5,7 +5,7 @@ from app.otp.models import OTPRequest, OTPResponse, WelcomeRequest
 controller = OTPApplication()
 
 router_otp = APIRouter(prefix="/v1", tags=["OTP"])
-router_notifications = APIRouter(prefix="/v1/notifications", tags=["Notifications"])
+router_notifications = APIRouter(prefix="/v1/applicant", tags=["Applicant"])
 
 TAG_OTP = {
     "name": "OTP",
@@ -13,8 +13,8 @@ TAG_OTP = {
 }
 
 TAG_NOTIFICATIONS = {
-    "name": "Notifications",
-    "description": "System notifications — welcome messages sent when an applicant is approved and becomes an active user.",
+    "name": "Applicant",
+    "description": "Applicant lifecycle notifications — welcome messages sent when an applicant is approved and becomes an active user.",
 }
 
 

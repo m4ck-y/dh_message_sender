@@ -26,7 +26,7 @@ Centralized API for multi-channel communication management.
     redoc_url="/redoc",
     openapi_url="/openapi.json",
     root_path=settings.ROOT_PATH,
-    openapi_tags=[TAG_OTP, TAG_NOTIFICATIONS, TAG_WAITLIST, {"name": "Audit", "description": "Full message traceability"}]
+    openapi_tags=[TAG_OTP, {"name": "Applicant", "description": "Applicant lifecycle notifications — welcome messages"}, TAG_WAITLIST, {"name": "Audit", "description": "Full message traceability"}]
 )
 
 # CORS Configuration

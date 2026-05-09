@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     """
     
     # API CONFIGURATION
-    APP_NAME: str = os.getenv("APP_NAME", "PulseCore")
+    APP_NAME: str = os.getenv("APP_NAME", "Notify")
     DEBUG: bool = os.getenv("DEBUG", "False").lower() == "true"
     # Values: development | staging | production
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
